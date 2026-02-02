@@ -136,6 +136,20 @@ public class MainFrame extends JFrame {
         routesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         routesTable.getTableHeader().setReorderingAllowed(false);
 
+        // 添加双击编辑功能
+        routesTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    int row = routesTable.rowAtPoint(e.getPoint());
+                    if (row >= 0) {
+                        routesTable.setRowSelectionInterval(row, row);
+                        onEditRoute(null);
+                    }
+                }
+            }
+        });
+
         // 表格样式
         routesTable.setFont(new Font("Microsoft YaHei", Font.PLAIN, 13));
         routesTable.setRowHeight(28);
@@ -177,7 +191,7 @@ public class MainFrame extends JFrame {
         button.setBackground(backgroundColor);
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
-        button.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));
+        button.setBorder(new RoundedBorder(8, backgroundColor));
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -824,6 +838,39 @@ public class MainFrame extends JFrame {
 
         public Object getCellEditorValue() {
             return label;
+        }
+    }
+
+    /**
+     * 自定义圆角边框
+     */
+    class RoundedBorder implements javax.swing.border.Border {
+        private int radius;
+        private Color color;
+
+        public RoundedBorder(int radius, Color color) {
+            this.radius = radius;
+            this.color = color;
+        }
+
+        @Override
+        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setColor(color);
+            g2.setStroke(new BasicStroke(1));
+            g2.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
+            g2.dispose();
+        }
+
+        @Override
+        public Insets getBorderInsets(Component c) {
+            return new Insets(radius / 2, radius / 2, radius / 2, radius / 2);
+        }
+
+        @Override
+        public boolean isBorderOpaque() {
+            return false;
         }
     }
 }
