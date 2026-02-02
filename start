@@ -1,0 +1,2 @@
+cd f:/IdeaProjects/moker
+mvn exec:java -Dexec.mainClass="com.tjwoods.Main"

@@ -1,0 +1,12 @@
+moker/
+├── src/main/java/com/tjwoods/
+│   ├── Main.java                 # 程序入口
+│   ├── model/
+│   │   ├── ServerConfig.java    # 服务器配置模型
+│   │   └── RouteConfig.java     # 路由配置模型
+│   ├── engine/
+│   │   └── HttpServerEngine.java # HTTP 服务器引擎
+│   └── gui/
+│       └── MainFrame.java       # Swing GUI 界面
+├── pom.xml                       # Maven 配置（已添加 Gson 依赖）
+└── test_server.bat              # 测试脚本
